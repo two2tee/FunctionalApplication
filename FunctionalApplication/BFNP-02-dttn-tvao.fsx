@@ -5,19 +5,19 @@
 let downTo n = 
     if n > 0 
     then [n.. -1 ..1]
-    else [];;
+    else failwith "invalid argument";;
 
 
 let downTo2 n =
     match n with 
     | n when n <= 0 -> []
     | n when n > 0 -> [n.. -1 ..1]
-    | _ -> [];;
+    | _ -> failwith "invalid argument";;
 
 
 //Exercise 2.2 
 
-let rec removeOddIdx xs =
+let rec removeOddIdx (xs:int list) =
     match xs with
     | [] -> []
     | [x] -> [x]
@@ -27,7 +27,7 @@ let rec removeOddIdx xs =
 removeOddIdx [1;2;3;4;5;6];;
 
 //Exercise 2.3
-let rec combinePair xs =
+let rec combinePair (xs:int list) =
     match xs with
     | [] -> []
     | [x] -> []
@@ -109,14 +109,18 @@ let substract (a1:amount) (a2:amount) =
     | x0::xs -> x0 - altSum xs;;
  
 
+ altSum [1;2;3;4;5];;
+
  (*
-    Exercise 
+    Exercise 2.7
  *)
 
 
 let explode (s:string) = List.ofArray(s.ToCharArray()) // gives exploded list based on char array 
 
-let rec explode2 (s:string) = if s.Length = 0 then [] else s.Chars(0) :: explode2 (s.Remove(0,1)) ;; // Remove is used to remove first index and then explodes tail 
+let rec explode2 (s:string) = if s.Length = 0 
+                                then [] 
+                                else s.Chars(0) :: explode2 (s.Remove(0,1)) ;; // Remove is used to remove first index and then explodes tail 
 
 (* 
 Exercise 2.8
@@ -132,7 +136,7 @@ Hint: Use List.fold.
 *)
 
 let implode (list : char list) =
-    List.foldBack(fun c s -> c.ToString() + s) list"";;
+    List.foldBack(fun c s -> c.ToString() + s) list "";;
 
 
 let implodeRev (list : char list) =
@@ -149,20 +153,132 @@ let toUpper1 (s:string) = s |> (explode >> List.map System.Char.ToUpper >> implo
 let toUpper2 (s:string) = s |> (implode << List.map System.Char.ToUpper << explode);;  //(c << b << a)
 
 
-(*
-Exercise 2.10
-palindrome:string->bool,
+
+(* 
+Exercise 2.10 
+
+Write a function palindrome:string->bool,
 so that palindrome s returns true if the string s is a palindrome; otherwise false.
-A string is called a palindrome if it is identical to the reversed string, eg, “Anna” is a palindrome but “Ann” is not.
-The function is not case sensitive.
+A string is called a palindrome if it is identical to the reversed string, 
+eg, “Anna” is a palindrome but “Ann” is not. The function is not case sensitive.
+
 *)
 
+// Shows that palindrome is case sensitive 
+let palindrome s y = s=y;;
+palindrome "anna" "ANNA" 
+// val it : bool = false 
 
-let palindrome (s:string) = 
-            let upperCase = toUpper (s)
-            let firstHalf =  9//upperCase.Substring(s,s.Length/2)
-            let secondHalf = 9//upperCase.Substring(s.Length/2,s.Length) |> (explode >> implodeRev)
-            if firstHalf = secondHalf
-            then true 
-            else false;;
-   
+// Compares first half of string with the second half of the string 
+// by exploding the second half and reverting the order and then imploding it.
+
+let palindrone (s:string) = 
+    let upper = toUpper(s) // Now also works for input like "ANna" 
+    let firstHalf = upper.Substring(0, s.Length/2)
+    let secondHalf = s.Substring(s.Length/2, s.Length/2) 
+    let explodedSecondHalf = explode secondHalf
+    let revertedSecondHalf = implodeRev explodedSecondHalf
+
+    if firstHalf = revertedSecondHalf then true
+    else false ;;
+
+//let palindroneOld (s:string) =
+//    if toUpper(s.Substring(0, s.Length/2)) 
+//    = toUpper(implodeRev(explode (s.Substring(s.Length/2,s.Length/2)))) 
+//    then true 
+//    else false ;; 
+
+palindrone "Anna";;
+
+(* 
+Exercise 2.11 
+
+TheAckermannfunctionisarecursivefunctionwherebothvalueandnumberofmutuallyrecursive calls grow rapidly.
+Write the function
+ack:int*int->int
+that implements the Ackermann function using pattern matching on the cases of (m,n) as given below.
+ n + 1 if m = 0
+A(m, n) = A(m − 1, 1) if m > 0 and n = 0  A(m−1,A(m,n−1)) ifm>0andn>0
+What is the result of ack(3,11).
+Notice: The Ackermann function is defined for non negative numbers only.
+
+*)
+
+let rec ack (m,n) = 
+    match (m,n) with 
+    | (0,n) -> n + 1
+    | (m,0) when m > 0 -> ack(m-1, 1)
+    | (m,n) when m > 0 && n > 0 -> ack(m-1, ack(m,n-1)) 
+    | _ -> failwith "Only non negative integers" ;; 
+
+// Result is 16381
+let result = ack (3,11) ;; 
+
+(* 
+Exercise 2.12 
+
+The function
+time f:(unit->’a)->’a*TimeSpan
+below times the computation of f x and returns the result and the real time used for the computation.
+
+let time f =
+  let start = System.DateTime.Now in
+  let res = f () in
+  let finish = System.DateTime.Now in
+  (res, finish - start);
+
+Try computetime (fun () -> ack (3,11)). 
+
+Write a new function timeArg1 f a : (’a -> ’b) -> ’a -> ’b * TimeSpan 
+that times the computation of evaluating the function f with argument a.
+
+Try timeArg1 ack (3,11). 
+Hint: You can use the function time above if you hide f a in a lambda (function).
+
+*)
+
+let time f =
+    let start = System.DateTime.Now in
+        let res = f () in
+            let finish = System.DateTime.Now in
+                (res, finish - start)
+
+// timeArg1 takes a function (time) as argument and is used as a anonymous function
+//  where f a is hidden in a lambda function 
+let timeArg1 f a = 
+    time (fun() -> f a) // a is a pair (int*int) 
+
+timeArg1 ack (3,11)
+
+(* 
+Exercise 2.13 : HR exercise 5.4
+
+Declare a function downto1 such that:
+downto1 f n e = f(1, f(2,..., f(n−1, f(n,e))...)) for n>0 down to 1 
+f n e = e for n≤0
+
+Declare the factorial function by use of downto1.
+Use down to 1 to declare a function that builds the list [g(1), g(2), . . . , g(n)] 
+for a function g and an integer n.
+
+*)
+
+// Builds list of functions from parameters 
+let rec downto1 f n e =
+    match n with
+    | n when n <= 0 -> e 
+    | n -> 
+        let list  = [1 .. n ]
+        List.foldBack f list e  //f(n-1, f(n,e))
+
+let factorial n:int =
+    if n < 0
+        then failwith "Invalid arg"
+        else downto1 (fun x y -> x*y) n 1;; 
+
+
+//Builds [g(1), g(2), . . . , g(n)] 
+let rec listBuilder g n =
+    downto1 (fun x y -> (g x)::y) n [];;
+
+listBuilder (fun x -> x+1 ) 5;; // ~> [2,3,4,5,6]
