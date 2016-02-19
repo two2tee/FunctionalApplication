@@ -1,4 +1,5 @@
-﻿(*
+﻿module assignment1
+(*
 Write a function sqr:int->int so that sqr x returns x^2
 *)
 
