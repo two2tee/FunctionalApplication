@@ -142,4 +142,5 @@ let exp5 = I (While(Lt(V("x"),N(10)), Ass("x",(Add(V("x"),N(1))))))
 
 
 (* Exercise 3.5 Extend the abstract syntax and the interpreter with if-then and repeat-until statements.
-Again we refer to slide 28 in the slide deck from the lecture 5.*)
+Again we refer to slide 28 in the slide deck from the lecture 5.
+*)
