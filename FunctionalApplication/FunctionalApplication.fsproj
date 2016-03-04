@@ -52,6 +52,7 @@
     <None Include="App.config" />
     <None Include="BFNP-02-dttn-tvao.fsx" />
     <Compile Include="BFNP-03-dttn-tvao.fs" />
+    <None Include="BFNP-04-dttn-tvao.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
