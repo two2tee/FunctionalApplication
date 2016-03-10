@@ -43,15 +43,15 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExprParseTest.fs" />
     <Compile Include="Point.fs" />
     <Compile Include="Point.fsi" />
     <Compile Include="PointTest.fs" />
-    <Compile Include="Vector.fs" />
     <Compile Include="Vector.fsi" />
+    <Compile Include="Vector.fs" />
     <Compile Include="VectorTest.fs" />
-    <Compile Include="ExprParse.fs" />
     <Compile Include="ExprParse.fsi" />
+    <Compile Include="ExprParse.fs" />
+    <Compile Include="ExprParseTest.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

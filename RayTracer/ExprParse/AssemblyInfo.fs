@@ -1,4 +1,4 @@
-﻿namespace ConsoleApplication1.AssemblyInfo
+﻿namespace AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("ConsoleApplication1")>]
+[<assembly: AssemblyTitle("ExprParse")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("ConsoleApplication1")>]
+[<assembly: AssemblyProduct("ExprParse")>]
 [<assembly: AssemblyCopyright("Copyright ©  2016")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
@@ -22,7 +22,7 @@ open System.Runtime.InteropServices
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("bc9b8566-1ac5-4203-97cd-3ab57de6f99a")>]
+[<assembly: Guid("4676b211-83ce-4c52-81e0-274c50ad4f69")>]
 
 // Version information for an assembly consists of the following four values:
 // 
